@@ -35,15 +35,24 @@
 
 namespace mcl::utils::log
 {
+enum class Mode
+{
+	MUTE,
+	FILE,
+	STDOUT
+}
+
+/* -------------------------------------------------------------------------- */
+
 inline FILE* f;
-inline int   mode;
+inline Mode  mode;
 inline bool  stat;
 
 /* init
 Initializes logger. Mode defines where to write the output: LOG_MODE_STDOUT,
 LOG_MODE_FILE and LOG_MODE_MUTE. */
 
-int init(const std::string& filePath, int mode);
+int init(const std::string& filePath, Mode mode);
 
 void close();
 
@@ -76,10 +85,10 @@ automatically transformed into a C-string. */
 template <typename... Args>
 static void print(const char* format, Args&&... args)
 {
-	if (mode == LOG_MODE_MUTE)
+	if (mode == Mode::MUTE)
 		return;
 
-	if (mode == LOG_MODE_FILE && stat == true)
+	if (mode == Mode::FILE && stat == true)
 	{
 		// Replace any std::string in the arguments by its C-string
 		std::fprintf(f, format, string_to_c_str(std::forward<Args>(args))...);

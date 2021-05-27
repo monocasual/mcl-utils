@@ -30,11 +30,11 @@
 
 namespace mcl::utils::log
 {
-int init(const std::string& filePath, int m)
+int init(const std::string& filePath, Mode m)
 {
 	mode = m;
 	stat = true;
-	if (mode == LOG_MODE_FILE)
+	if (mode == Mode::FILE)
 	{
 		f = std::fopen(filePath.c_str(), "a");
 		if (!f)
@@ -50,7 +50,7 @@ int init(const std::string& filePath, int m)
 
 void close()
 {
-	if (mode == LOG_MODE_FILE)
+	if (mode == Mode::FILE)
 		std::fclose(f);
 }
 } // namespace mcl::utils::log
