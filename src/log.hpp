@@ -37,16 +37,17 @@ namespace mcl::utils::log
 {
 enum class Mode
 {
-	MUTE,
-	FILE,
-	STDOUT
-}
-
+	DISABLED,
+	TO_FILE,
+	TO_STDOUT
+};
 /* -------------------------------------------------------------------------- */
 
 inline FILE* f;
-inline Mode  mode;
 inline bool  stat;
+inline Mode  mode;
+
+/* -------------------------------------------------------------------------- */
 
 /* init
 Initializes logger. Mode defines where to write the output: LOG_MODE_STDOUT,
@@ -85,10 +86,10 @@ automatically transformed into a C-string. */
 template <typename... Args>
 static void print(const char* format, Args&&... args)
 {
-	if (mode == Mode::MUTE)
+	if (mode == Mode::DISABLED)
 		return;
 
-	if (mode == Mode::FILE && stat == true)
+	if (mode == Mode::TO_FILE && stat == true)
 	{
 		// Replace any std::string in the arguments by its C-string
 		std::fprintf(f, format, string_to_c_str(std::forward<Args>(args))...);
@@ -103,9 +104,9 @@ static void print(const char* format, Args&&... args)
 /* -------------------------------------------------------------------------- */
 
 #ifndef NDEBUG
-#define GG_DEBUG(x) std::cerr << __FILE__ << "::" << __func__ << "() - " << x << std::endl
+#define ML_DEBUG(x) std::cerr << __FILE__ << "::" << __func__ << "() - " << x << std::endl
 #else
-#define GG_DEBUG(x) \
+#define ML_DEBUG(x) \
 	do              \
 	{               \
 	} while (0)

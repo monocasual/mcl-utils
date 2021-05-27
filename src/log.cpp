@@ -34,7 +34,7 @@ int init(const std::string& filePath, Mode m)
 {
 	mode = m;
 	stat = true;
-	if (mode == Mode::FILE)
+	if (mode == Mode::TO_FILE)
 	{
 		f = std::fopen(filePath.c_str(), "a");
 		if (!f)
@@ -50,7 +50,7 @@ int init(const std::string& filePath, Mode m)
 
 void close()
 {
-	if (mode == Mode::FILE)
+	if (mode == Mode::TO_FILE)
 		std::fclose(f);
 }
 } // namespace mcl::utils::log
