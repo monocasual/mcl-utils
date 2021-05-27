@@ -28,6 +28,7 @@
 #define MONOCASUAL_UTILS_LOG_H
 
 #include <cstdio>
+#include <iostream>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -46,6 +47,8 @@ int init(const std::string& filePath, int mode);
 
 void close();
 
+/* -------------------------------------------------------------------------- */
+
 /* string_to_c_str
 Internal utility function for string transformation. Uses forwarding references
 (&&) to avoid useless string copy. */
@@ -63,6 +66,8 @@ static constexpr auto string_to_c_str = [](auto&& s) {
 		// Return the argument unchanged otherwise
 		return s;
 };
+
+/* -------------------------------------------------------------------------- */
 
 /* print
 A variadic printf-like logging function. Any `std::string` argument will be 
@@ -85,6 +90,17 @@ static void print(const char* format, Args&&... args)
 	else
 		std::printf(format, string_to_c_str(std::forward<Args>(args))...);
 }
+
+/* -------------------------------------------------------------------------- */
+
+#ifndef NDEBUG
+#define GG_DEBUG(x) std::cerr << __FILE__ << "::" << __func__ << "() - " << x << std::endl
+#else
+#define GG_DEBUG(x) \
+	do              \
+	{               \
+	} while (0)
+#endif
 } // namespace mcl::utils::log
 
 #endif
