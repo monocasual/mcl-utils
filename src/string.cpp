@@ -24,17 +24,13 @@
  *
  * -------------------------------------------------------------------------- */
 
-#include "string.h"
-#include "core/const.h"
+#include "string.hpp"
 #include <climits>
 #include <cstdarg>
 #include <iomanip>
+#include <vector>
 
-namespace giada
-{
-namespace u
-{
-namespace string
+namespace mcl::utils::string
 {
 /* TODO - use std::to_string() */
 
@@ -112,7 +108,4 @@ std::vector<std::string> split(std::string in, std::string sep)
 	} while (next != std::string::npos);
 	return out;
 }
-
-} // namespace string
-} // namespace u
-} // namespace giada
+} // namespace mcl::utils::string

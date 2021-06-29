@@ -43,13 +43,12 @@
 #include <libgen.h> // basename unix
 #include <pwd.h>    // getpwuid
 #endif
-#include "env.h"
 #include "fs.hpp"
-#include "string.h"
+#include "string.hpp"
 
 namespace stdfs = std::filesystem;
 
-namespace giada::u::fs
+namespace mcl::utils::fs
 {
 bool fileExists(const std::string& s)
 {
@@ -60,7 +59,7 @@ bool fileExists(const std::string& s)
 
 bool isDir(const std::string& s)
 {
-	return stdfs::is_directory(s) && !isProject(s);
+	return stdfs::is_directory(s);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -132,8 +131,8 @@ bool isProject(const std::string& s)
 std::string stripFileUrl(const std::string& s)
 {
 	std::string out = s;
-	out             = u::string::replace(out, "file://", "");
-	out             = u::string::replace(out, "%20", " ");
+	out             = string::replace(out, "file://", "");
+	out             = string::replace(out, "%20", " ");
 	return out;
 }
 
@@ -188,4 +187,14 @@ std::string getUpDir(const std::string& s)
 
 	return stdfs::path(s).parent_path().string();
 }
-} // namespace giada::u::fs
+
+/* -------------------------------------------------------------------------- */
+
+std::string uriToPath(const std::string& uri)
+{
+	std::string out = uri;
+	out             = string::replace(out, "file://", "");
+	out             = string::replace(out, "%20", " ");
+	return out;
+}
+} // namespace mcl::utils::fs

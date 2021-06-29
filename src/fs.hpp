@@ -78,6 +78,8 @@ Returns the upper directory:
 /path/to/my/directory -> /path/to/my/ */
 
 std::string getUpDir(const std::string& s);
+
+std::string uriToPath(const std::string& uri);
 } // namespace mcl::utils::fs
 
 #endif
