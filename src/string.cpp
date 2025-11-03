@@ -32,17 +32,6 @@
 
 namespace mcl::utils::string
 {
-/* TODO - use std::to_string() */
-
-std::string fToString(float f, int precision)
-{
-	std::stringstream out;
-	out << std::fixed << std::setprecision(precision) << f;
-	return out.str();
-}
-
-/* -------------------------------------------------------------------------- */
-
 std::string trim(const std::string& s)
 {
 	std::size_t first = s.find_first_not_of(" \n\t");
@@ -52,8 +41,7 @@ std::string trim(const std::string& s)
 
 /* -------------------------------------------------------------------------- */
 
-std::string replace(std::string in, const std::string& search,
-    const std::string& replace)
+std::string replace(std::string in, const std::string& search, const std::string& replace)
 {
 	std::size_t pos = 0;
 	while ((pos = in.find(search, pos)) != std::string::npos)
@@ -66,28 +54,9 @@ std::string replace(std::string in, const std::string& search,
 
 /* -------------------------------------------------------------------------- */
 
-std::string format(const char* format, ...)
+bool contains(const std::string& s, char c)
 {
-	va_list args;
-
-	/* Compute the size of the new expanded std::string (i.e. with replacement taken
-	into account). */
-
-	va_start(args, format);
-	std::size_t size = vsnprintf(nullptr, 0, format, args) + 1;
-	va_end(args);
-
-	/* Create a new temporary char array to hold the new expanded std::string. */
-
-	std::unique_ptr<char[]> tmp(new char[size]);
-
-	/* Fill the temporary std::string with the formatted data. */
-
-	va_start(args, format);
-	vsprintf(tmp.get(), format, args);
-	va_end(args);
-
-	return std::string(tmp.get(), tmp.get() + size - 1);
+	return s.find(c) != std::string::npos;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -108,5 +77,33 @@ std::vector<std::string> split(const std::string& in, const std::string& sep)
 			out.push_back(token);
 	} while (next != std::string::npos);
 	return out;
+}
+
+/* -------------------------------------------------------------------------- */
+
+float toFloat(const std::string& s)
+{
+	try
+	{
+		return std::stof(s);
+	}
+	catch (const std::exception&)
+	{
+		return 0.0f;
+	}
+}
+
+/* -------------------------------------------------------------------------- */
+
+int toInt(const std::string& s)
+{
+	try
+	{
+		return std::stoi(s);
+	}
+	catch (const std::exception&)
+	{
+		return 0;
+	}
 }
 } // namespace mcl::utils::string

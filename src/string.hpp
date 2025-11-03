@@ -39,10 +39,16 @@ std::string trim(const std::string& s);
 
 std::vector<std::string> split(const std::string& in, const std::string& sep);
 
-std::string fToString(float f, int precision);
+/* contains
+Returns true if the string in input contains the specified character. */
 
-std::string format(const char* format, ...);
+bool contains(const std::string&, char);
 
+/* toFloat, toInt
+Convert a string to numbers. Like std::stof, std::stoi, just safer. */
+
+float toFloat(const std::string&);
+int   toInt(const std::string&);
 } // namespace mcl::utils::string
 
 #endif
