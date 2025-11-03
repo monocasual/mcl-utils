@@ -25,32 +25,7 @@
  * -------------------------------------------------------------------------- */
 
 #include "log.h"
-#include <cstdio>
-#include <string>
 
 namespace mcl::utils::log
 {
-int init(const std::string& filePath, Mode m)
-{
-	mode = m;
-	stat = true;
-	if (mode == Mode::TO_FILE)
-	{
-		f = std::fopen(filePath.c_str(), "a");
-		if (!f)
-		{
-			stat = false;
-			return 0;
-		}
-	}
-	return 1;
-}
-
-/* -------------------------------------------------------------------------- */
-
-void close()
-{
-	if (mode == Mode::TO_FILE)
-		std::fclose(f);
-}
 } // namespace mcl::utils::log
