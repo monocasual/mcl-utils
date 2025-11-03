@@ -28,14 +28,19 @@
 #define MONOCASUAL_UTILS_VECTOR_H
 
 #include <algorithm>
+#include <ranges>
 #include <vector>
 
 namespace mcl::utils::vector
 {
+/* indexOf
+Returns the index of element p in container/view 'v'. Returns v.size() if
+element is not found. */
+
 template <typename T, typename P>
-std::size_t indexOf(T& v, const P& p)
+std::ptrdiff_t indexOf(const T& v, const P& p)
 {
-	return std::distance(v.begin(), std::find(v.begin(), v.end(), p));
+	return std::distance(std::cbegin(v), std::find(std::cbegin(v), std::cend(v), p));
 }
 
 /* -------------------------------------------------------------------------- */
@@ -43,15 +48,15 @@ std::size_t indexOf(T& v, const P& p)
 template <typename T, typename F>
 auto findIf(T& v, F&& func)
 {
-	return std::find_if(v.begin(), v.end(), func);
+	return std::find_if(std::begin(v), std::end(v), func);
 }
 
 /* -------------------------------------------------------------------------- */
 
 template <typename T, typename F>
-bool has(T& v, F&& func)
+bool has(const T& v, F&& func)
 {
-	return findIf(v, func) != v.end();
+	return findIf(v, func) != std::cend(v);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -68,12 +73,35 @@ void remove(T& v, const V& o)
 	v.erase(std::remove(v.begin(), v.end(), o), v.end());
 }
 
+template <typename T>
+void removeAt(T& v, std::size_t index)
+{
+	v.erase(v.begin() + index);
+}
+
 /* -------------------------------------------------------------------------- */
 
 template <typename T, typename I>
 std::vector<T> cast(const I& i)
 {
 	return {i.begin(), i.end()};
+}
+
+/* -------------------------------------------------------------------------- */
+
+template <typename Vector, typename Default>
+auto atOr(const Vector& v, std::size_t index, Default d)
+{
+	return index < v.size() ? v[index] : d;
+}
+
+/* -------------------------------------------------------------------------- */
+
+template <typename T>
+    requires std::integral<T>
+constexpr auto range(T n) noexcept
+{
+	return std::views::iota(T{0}, n);
 }
 } // namespace mcl::utils::vector
 
