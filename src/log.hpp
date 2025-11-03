@@ -63,9 +63,10 @@ void close();
 Internal utility function for string transformation. Uses forwarding references
 (&&) to avoid useless string copy. */
 
-static constexpr auto string_to_c_str = [](auto&& s) {
-	/* Remove any reference and const-ness, since the function can handle 
-	l-value and r-value, const or not. TODO - Use std::remove_cvref instead, 
+static constexpr auto string_to_c_str = [](auto&& s)
+{
+	/* Remove any reference and const-ness, since the function can handle
+	l-value and r-value, const or not. TODO - Use std::remove_cvref instead,
 	when switching to C++20. */
 	if constexpr (std::is_same_v<std::remove_const_t<std::remove_reference_t<
 	                                 decltype(s)>>,
@@ -80,7 +81,7 @@ static constexpr auto string_to_c_str = [](auto&& s) {
 /* -------------------------------------------------------------------------- */
 
 /* print
-A variadic printf-like logging function. Any `std::string` argument will be 
+A variadic printf-like logging function. Any `std::string` argument will be
 automatically transformed into a C-string. */
 
 template <typename... Args>
