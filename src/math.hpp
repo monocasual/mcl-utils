@@ -31,7 +31,9 @@
 
 namespace mcl::utils::math
 {
-int quantize(int x, int step);
+float linearToDB(float f);
+float dBtoLinear(float f);
+int   quantize(int x, int step);
 
 /* -------------------------------------------------------------------------- */
 

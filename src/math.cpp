@@ -29,6 +29,20 @@
 
 namespace mcl::utils::math
 {
+float linearToDB(float f)
+{
+	return 20 * std::log10(f);
+}
+
+/* -------------------------------------------------------------------------- */
+
+float dBtoLinear(float f)
+{
+	return std::pow(10, f / 20.0f);
+}
+
+/* -------------------------------------------------------------------------- */
+
 int quantize(int x, int step)
 {
 	/* Source:
