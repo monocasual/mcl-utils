@@ -16,7 +16,7 @@ add_executable(tests
     src/vector.hpp
     tests/all.cpp)
 target_include_directories(tests PRIVATE ${CMAKE_SOURCE_DIR})
-target_compile_features(tests PRIVATE cxx_std_20)
+target_compile_features(tests PRIVATE cxx_std_23)
 
 include(cmake/CPM.cmake)
 
