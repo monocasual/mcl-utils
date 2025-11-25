@@ -45,6 +45,8 @@ TO map(TI x, TI a, TI b, TO w, TO z)
 	static_assert(std::is_arithmetic_v<TI>);
 	static_assert(std::is_arithmetic_v<TO>);
 
+	if (a == b) // Prevents division by zero (undefined behavior)
+		return x;
 	return (((x - a) / (double)(b - a)) * (z - w)) + w;
 }
 
