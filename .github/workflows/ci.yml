@@ -41,7 +41,7 @@ jobs:
         run: cmake --build build/ -j 2
 
       - name: Run tests
-        run: ./build/tests
+        run: ./build/Debug/tests.exe
 
   macOS:
     name: macOS
