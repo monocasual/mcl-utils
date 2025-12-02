@@ -24,16 +24,17 @@
  *
  * -------------------------------------------------------------------------- */
 
+#include "os.hpp"
 #include <climits>
 #include <cstdlib>
 #include <filesystem>
 #include <string>
-#if __APPLE__
+#if MCL_OS_MAC
 #include <libgen.h> // basename unix
 #include <pwd.h>    // getpwuid
 #include <unistd.h> // getuid
 #endif
-#if _WIN32
+#if MCL_OS_WINDOWS
 #include <shlobj.h> // SHGetKnownFolderPath
 #endif
 #include "fs.hpp"
@@ -123,17 +124,17 @@ bool isProject(const std::string& s)
 
 std::string getHomePath()
 {
-#if defined(__linux__) || defined(__FreeBSD__)
+#if MCL_OS_LINUX || MCL_OS_FREEBSD
 
 	char buf[PATH_MAX];
 	snprintf(buf, PATH_MAX, "%s", getenv("HOME"));
 
-#elif defined(_WIN32)
+#elif MCL_OS_WINDOWS
 
 	char buf[MAX_PATH];
 	snprintf(buf, MAX_PATH, ".");
 
-#elif defined(__APPLE__)
+#elif MCL_OS_MAC
 
 	char           buf[PATH_MAX];
 	struct passwd* pwd = getpwuid(getuid());
@@ -160,7 +161,7 @@ bool isRootDir(const std::string& s)
 
 std::string getUpDir(const std::string& s)
 {
-#ifdef _WIN32
+#if MCL_OS_WINDOWS
 
 	// If root, let the user browse the drives list by returning "".
 	if (isRootDir(s))
@@ -193,7 +194,7 @@ std::string join(const std::string& a, const std::string& b)
 
 bool isValidFileName(const std::string& f)
 {
-#if _WIN32
+#if MCL_OS_WINDOWS
 	const std::vector<char> forbidden = {'<', '>', ':', '"', '/', '\\', '|', '?', '*'};
 #else
 	const std::vector<char> forbidden = {'/', ':'}; // ':' not supported in macOS
