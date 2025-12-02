@@ -78,6 +78,16 @@ Returns the upper directory:
 std::string getUpDir(const std::string& s);
 
 std::string uriToPath(const std::string& uri);
+
+/* join
+Joins two string paths using the correct separator. */
+
+std::string join(const std::string& a, const std::string& b);
+
+/* isValidFileName
+Returns false if the file name contains forbidden characters. */
+
+bool isValidFileName(const std::string&);
 } // namespace mcl::utils::fs
 
 #endif
