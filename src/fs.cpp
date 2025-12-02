@@ -24,24 +24,17 @@
  *
  * -------------------------------------------------------------------------- */
 
-#include <filesystem>
-#if defined(_WIN32) // getcwd (unix) or __getcwd (win)
-#include <direct.h>
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
 #include <climits>
-#include <cstdarg>
-#include <cstdint>
 #include <cstdlib>
-#include <cstring>
-#include <errno.h>
+#include <filesystem>
 #include <string>
-#include <sys/stat.h> // stat (fs::dirExists)
-#ifdef __APPLE__
+#if __APPLE__
 #include <libgen.h> // basename unix
 #include <pwd.h>    // getpwuid
+#include <unistd.h> // getuid
+#endif
+#if _WIN32
+#include <shlobj.h> // SHGetKnownFolderPath
 #endif
 #include "fs.hpp"
 #include "string.hpp"
