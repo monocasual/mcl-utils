@@ -177,7 +177,7 @@ std::string getConfigDirPath()
 	// It's up to the SHGetKnownFolderPath caller to free appdataPathPtr.
 	CoTaskMemFree(static_cast<void*>(appdataPathPtr));
 
-	return appDataPath.string();
+	return appDataPath;
 
 #elif MCL_OS_MAC
 
