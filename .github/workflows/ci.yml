@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   linux:
-    name: CI
+    name: Linux
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
@@ -15,6 +15,46 @@ jobs:
 
       - name: Generate Makefile
         run: cmake -S . -B build/ -G "Unix Makefiles" 
+
+      - name: Build
+        run: cmake --build build/ -j 2
+
+      - name: Run tests
+        run: ./build/tests
+
+  windows:
+  name: Windows
+  runs-on: windows-2022
+  timeout-minutes: 60
+  steps:
+    - name: Download repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Generate Makefile
+      shell: bash
+      run: cmake -S . -B build/ -G "Visual Studio 17 2022"
+
+    - name: Build
+      shell: bash
+      run: cmake --build build/ -j 2
+
+    - name: Run tests
+      run: ./build/tests
+
+  macOS:
+    name: macOS
+    runs-on: macOS-14
+    timeout-minutes: 60
+    steps:
+      - name: Download repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Generate Makefile
+        run: cmake -S . -B build/
 
       - name: Build
         run: cmake --build build/ -j 2
