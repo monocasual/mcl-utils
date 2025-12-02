@@ -43,7 +43,14 @@ bool isRootDir(const std::string& s);
 bool mkdir(const std::string& s);
 
 std::string getCurrentPath();
-std::string getHomePath();
+
+/* getConfigDirPath
+Returns the folder in which applications store their settings.
+Windows: \Documents and Settings\[username]\Application Data
+macOS:   ~/Library/Application Support
+Linux:   ~/.config */
+
+std::string getConfigDirPath();
 
 /* getRealPath
 Expands all symbolic links and resolves references to /./, /../ and extra /

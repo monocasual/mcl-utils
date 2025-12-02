@@ -38,12 +38,32 @@
 #include <shlobj.h> // SHGetKnownFolderPath
 #endif
 #include "fs.hpp"
+#include "log.hpp"
 #include "string.hpp"
 
 namespace stdfs = std::filesystem;
 
 namespace mcl::utils::fs
 {
+namespace
+{
+#if MCL_OS_LINUX || MCL_OS_FREEBSD
+
+std::string getEnvVariable_(const char* s)
+{
+	const char* tmp = getenv(s);
+	if (tmp == nullptr)
+		return "";
+	return {tmp};
+}
+
+#endif
+} // namespace
+
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+
 bool fileExists(const std::string& s)
 {
 	return stdfs::exists(s);
@@ -122,17 +142,42 @@ bool isProject(const std::string& s)
 
 /* -------------------------------------------------------------------------- */
 
-std::string getHomePath()
+std::string getConfigDirPath()
 {
 #if MCL_OS_LINUX || MCL_OS_FREEBSD
 
-	char buf[PATH_MAX];
-	snprintf(buf, PATH_MAX, "%s", getenv("HOME"));
+	/* See https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+	from issue https://github.com/monocasual/giada/issues/338 */
+
+	const std::string xdgConfigHome = getEnvVariable_("XDG_CONFIG_HOME");
+	if (xdgConfigHome != "")
+		return xdgConfigHome;
+
+	const std::string home = getEnvVariable_("HOME");
+	if (home == "")
+	{
+		ML_DEBUG("Can't fetch $HOME environment variable\n");
+		return "";
+	}
+
+	return stdfs::path(home) / ".config";
 
 #elif MCL_OS_WINDOWS
 
-	char buf[MAX_PATH];
-	snprintf(buf, MAX_PATH, ".");
+	wchar_t* appdataPathPtr = nullptr;
+	auto     result         = SHGetKnownFolderPath(FOLDERID_RoamingAppData, KF_FLAG_CREATE, NULL, &appdataPathPtr);
+	if (result != S_OK)
+	{
+		ML_DEBUG("Unable to fetch AppData path\n");
+		return "";
+	}
+
+	auto appDataPath = std::wstring(appdataPathPtr);
+
+	// It's up to the SHGetKnownFolderPath caller to free appdataPathPtr.
+	CoTaskMemFree(static_cast<void*>(appdataPathPtr));
+
+	return appDataPath.string();
 
 #elif MCL_OS_MAC
 
@@ -140,14 +185,15 @@ std::string getHomePath()
 	struct passwd* pwd = getpwuid(getuid());
 	if (pwd == nullptr)
 	{
+		ML_DEBUG("Unable to fetch user infos\n");
 		return "";
 	}
 	const char* home = pwd->pw_dir;
 	snprintf(buf, PATH_MAX, "%s/Library/Application Support", home);
 
-#endif
-
 	return stdfs::path(buf).string();
+
+#endif
 }
 
 /* -------------------------------------------------------------------------- */
