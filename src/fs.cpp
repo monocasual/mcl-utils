@@ -128,16 +128,6 @@ bool isProject(const std::string& s)
 
 /* -------------------------------------------------------------------------- */
 
-std::string stripFileUrl(const std::string& s)
-{
-	std::string out = s;
-	out             = string::replace(out, "file://", "");
-	out             = string::replace(out, "%20", " ");
-	return out;
-}
-
-/* -------------------------------------------------------------------------- */
-
 std::string getHomePath()
 {
 #if defined(__linux__) || defined(__FreeBSD__)

@@ -71,8 +71,6 @@ std::string getExt(const std::string& s);
 
 std::string stripExt(const std::string& s);
 
-std::string stripFileUrl(const std::string& s);
-
 /* getUpDir
 Returns the upper directory:
 /path/to/my/directory -> /path/to/my/ */
