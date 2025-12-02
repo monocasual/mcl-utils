@@ -23,25 +23,25 @@ jobs:
         run: ./build/tests
 
   windows:
-  name: Windows
-  runs-on: windows-2022
-  timeout-minutes: 60
-  steps:
-    - name: Download repository
-      uses: actions/checkout@v4
-      with:
-        submodules: recursive
+    name: Windows
+    runs-on: windows-2022
+    timeout-minutes: 60
+    steps:
+      - name: Download repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
-    - name: Generate Makefile
-      shell: bash
-      run: cmake -S . -B build/ -G "Visual Studio 17 2022"
+      - name: Generate Makefile
+        shell: bash
+        run: cmake -S . -B build/ -G "Visual Studio 17 2022"
 
-    - name: Build
-      shell: bash
-      run: cmake --build build/ -j 2
+      - name: Build
+        shell: bash
+        run: cmake --build build/ -j 2
 
-    - name: Run tests
-      run: ./build/tests
+      - name: Run tests
+        run: ./build/tests
 
   macOS:
     name: macOS
