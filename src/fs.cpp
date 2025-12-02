@@ -200,7 +200,7 @@ std::string join(const std::string& a, const std::string& b)
 
 bool isValidFileName(const std::string& f)
 {
-#if G_OS_WINDOWS
+#if _WIN32
 	const std::vector<char> forbidden = {'<', '>', ':', '"', '/', '\\', '|', '?', '*'};
 #else
 	const std::vector<char> forbidden = {'/', ':'}; // ':' not supported in macOS
