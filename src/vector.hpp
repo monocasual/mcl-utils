@@ -59,6 +59,12 @@ bool hasIf(const T& v, F&& func)
 	return findIf(v, func) != std::cend(v);
 }
 
+template <typename T, typename Target>
+bool has(const T& v, const Target& target)
+{
+	return std::find(std::cbegin(v), std::cend(v), target) != std::cend(v);
+}
+
 /* -------------------------------------------------------------------------- */
 
 template <typename T, typename F>
