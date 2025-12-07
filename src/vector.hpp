@@ -54,7 +54,7 @@ auto findIf(T& v, F&& func)
 /* -------------------------------------------------------------------------- */
 
 template <typename T, typename F>
-bool has(const T& v, F&& func)
+bool hasIf(const T& v, F&& func)
 {
 	return findIf(v, func) != std::cend(v);
 }
