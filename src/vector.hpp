@@ -27,6 +27,7 @@
 #ifndef MONOCASUAL_UTILS_VECTOR_H
 #define MONOCASUAL_UTILS_VECTOR_H
 
+#include "os.hpp"
 #include <algorithm>
 #include <ranges>
 #include <vector>
@@ -108,6 +109,22 @@ template <typename T>
 constexpr auto range(T n) noexcept
 {
 	return std::views::iota(T{0}, n);
+}
+
+/* -------------------------------------------------------------------------- */
+
+/* enumerate
+Simple shim to make 'enumerate' work on Apple Clang, where std::views::enumerate
+is not supported yet (end of 2025). */
+
+template <std::ranges::range R>
+auto enumerate(R&& r) noexcept
+{
+#if MCL_OS_MAC
+	return std::views::zip(std::views::iota(std::size_t{0}), std::forward<R>(r));
+#else
+	return std::views::enumerate(std::forward<R>(r));
+#endif
 }
 } // namespace mcl::utils::vector
 
