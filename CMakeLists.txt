@@ -15,6 +15,7 @@ add_executable(tests
     src/time.cpp
     src/container.hpp
     src/os.hpp
+    src/id.hpp
     tests/all.cpp)
 target_include_directories(tests PRIVATE ${CMAKE_SOURCE_DIR})
 target_compile_features(tests PRIVATE cxx_std_23)

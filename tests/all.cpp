@@ -1,4 +1,5 @@
 #include "src/fs.hpp"
+#include "src/id.hpp"
 #include "src/math.hpp"
 #include "src/string.hpp"
 #include <catch2/catch_test_macros.hpp>
@@ -53,4 +54,19 @@ TEST_CASE("math")
 	REQUIRE(map(0.0f, 30.0f, 1.0f) == 0.0f);
 	REQUIRE(map(30.0f, 30.0f, 1.0f) == 1.0f);
 	REQUIRE_THAT(map(15.0f, 30.0f, 1.0f), Catch::Matchers::WithinAbs(0.5f, 0.001f));
+}
+
+TEST_CASE("id")
+{
+	using namespace mcl::utils;
+
+	Id invalid;
+	Id valid{1};
+
+	REQUIRE(invalid.isValid() == false);
+	REQUIRE(valid.isValid() == true);
+	REQUIRE(valid.getValue() == 1);
+	REQUIRE(valid != invalid);
+	REQUIRE(valid > invalid);
+	REQUIRE(++valid == Id(2));
 }

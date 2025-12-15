@@ -1,0 +1,81 @@
+/* -----------------------------------------------------------------------------
+ *
+ * Monocasual Utils
+ *
+ * -----------------------------------------------------------------------------
+ *
+ * Copyright (C) 2021-2025 Giovanni A. Zuliani | Monocasual
+ *
+ * This file is part of Monocasual Utils.
+ *
+ * Monocasual Utils is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU General
+ * Public License as published by the Free Software Foundation, either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * Monocasual Utils is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Giada - Monocasual Utils. If not, see
+ * <http://www.gnu.org/licenses/>.
+ *
+ * -------------------------------------------------------------------------- */
+
+#ifndef MONOCASUAL_UTILS_ID_H
+#define MONOCASUAL_UTILS_ID_H
+
+#include <cstddef>
+#include <ostream>
+
+namespace mcl::utils
+{
+class Id
+{
+public:
+	constexpr Id() noexcept = default; // Invalid
+
+	explicit constexpr Id(std::size_t v) noexcept
+	: m_value(v)
+	{
+	}
+
+	static constexpr Id makeInvalid() noexcept { return Id(); }
+
+	constexpr bool        isValid() const noexcept { return m_value != 0; }
+	constexpr std::size_t getValue() const noexcept { return m_value; }
+
+	auto operator<=>(const Id&) const noexcept = default;
+
+	constexpr Id operator+(std::size_t n) const noexcept
+	{
+		return Id(m_value + n);
+	}
+
+	constexpr Id& operator++() noexcept // ++id
+	{
+		++m_value;
+		return *this;
+	}
+
+	constexpr Id operator++(int) noexcept // id++
+	{
+		Id tmp{*this};
+		++(*this);
+		return tmp;
+	}
+
+	friend std::ostream& operator<<(std::ostream& out, const Id& id)
+	{
+		out << id.m_value;
+		return out;
+	}
+
+private:
+	std::size_t m_value{0};
+};
+
+} // namespace mcl::utils
+#endif
