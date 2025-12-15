@@ -78,4 +78,20 @@ private:
 };
 } // namespace mcl::utils
 
+/* std::hash<mcl::utils::Id>
+Provide std::hash specialization for Id, so you can use Id as a key for e.g.
+std::unordered_map. */
+
+namespace std
+{
+template <>
+struct hash<mcl::utils::Id>
+{
+	std::size_t operator()(const mcl::utils::Id& id) const noexcept
+	{
+		return std::hash<std::size_t>{}(id.getValue());
+	}
+};
+} // namespace std
+
 #endif
