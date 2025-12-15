@@ -76,6 +76,6 @@ public:
 private:
 	std::size_t m_value{0};
 };
-
 } // namespace mcl::utils
+
 #endif
