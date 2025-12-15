@@ -32,7 +32,7 @@
 #include <ranges>
 #include <vector>
 
-namespace mcl::utils::vector
+namespace mcl::utils::container
 {
 /* indexOf
 Returns the index of element p in container/view 'v'. Returns v.size() if
@@ -126,6 +126,6 @@ auto enumerate(R&& r) noexcept
 	return std::views::enumerate(std::forward<R>(r));
 #endif
 }
-} // namespace mcl::utils::vector
+} // namespace mcl::utils::container
 
 #endif

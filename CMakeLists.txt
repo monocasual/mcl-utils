@@ -13,7 +13,7 @@ add_executable(tests
     src/string.cpp
     src/time.hpp
     src/time.cpp
-    src/vector.hpp
+    src/container.hpp
     src/os.hpp
     tests/all.cpp)
 target_include_directories(tests PRIVATE ${CMAKE_SOURCE_DIR})
