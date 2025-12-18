@@ -27,6 +27,7 @@
 #ifndef MONOCASUAL_UTILS_ID_H
 #define MONOCASUAL_UTILS_ID_H
 
+#include <cassert>
 #include <cstddef>
 #include <ostream>
 
@@ -40,6 +41,7 @@ public:
 	explicit constexpr Id(std::size_t v) noexcept
 	: m_value(v)
 	{
+		assert(v > 0);
 	}
 
 	/* Constructor (3)
