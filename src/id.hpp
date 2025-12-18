@@ -42,10 +42,32 @@ public:
 	{
 	}
 
+	/* Constructor (3)
+	Takes an enum class as parameter. Useful when you want to make an ID out of
+	an existing enum class element. */
+
+	template <typename EnumClass>
+	    requires std::is_enum_v<EnumClass>
+	explicit Id(EnumClass e) noexcept
+	: m_value(static_cast<std::size_t>(e))
+	{
+	}
+
 	static constexpr Id makeInvalid() noexcept { return Id(); }
 
 	constexpr bool        isValid() const noexcept { return m_value != 0; }
 	constexpr std::size_t getValue() const noexcept { return m_value; }
+
+	/* Operator ==([enum class])
+	Special overload of operator == to allow comparing an Id with an enum class
+	element. */
+
+	template <typename EnumClass>
+	    requires std::is_enum_v<EnumClass>
+	bool operator==(EnumClass e) const
+	{
+		return m_value == static_cast<std::size_t>(e);
+	}
 
 	auto operator<=>(const Id&) const noexcept = default;
 
