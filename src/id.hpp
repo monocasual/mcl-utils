@@ -69,6 +69,7 @@ public:
 		return m_value == static_cast<std::size_t>(e);
 	}
 
+	bool operator==(const Id&) const noexcept  = default;
 	auto operator<=>(const Id&) const noexcept = default;
 
 	constexpr Id operator+(std::size_t n) const noexcept
