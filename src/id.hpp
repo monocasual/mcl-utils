@@ -66,13 +66,13 @@ public:
 
 	template <typename EnumClass>
 	    requires std::is_enum_v<EnumClass>
-	bool operator==(EnumClass e) const
+	constexpr bool operator==(EnumClass e) const
 	{
 		return m_value == static_cast<std::size_t>(e);
 	}
 
-	bool operator==(const Id&) const noexcept  = default;
-	auto operator<=>(const Id&) const noexcept = default;
+	constexpr bool operator==(const Id&) const noexcept  = default;
+	constexpr auto operator<=>(const Id&) const noexcept = default;
 
 	constexpr Id operator+(const Id& o) const noexcept
 	{
