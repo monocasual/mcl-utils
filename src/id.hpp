@@ -51,7 +51,7 @@ public:
 	template <typename EnumClass>
 	    requires std::is_enum_v<EnumClass>
 	explicit Id(EnumClass e) noexcept
-	: m_value(static_cast<std::size_t>(e))
+	: Id(static_cast<std::size_t>(e))
 	{
 	}
 
