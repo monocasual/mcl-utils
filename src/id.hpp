@@ -74,6 +74,11 @@ public:
 	bool operator==(const Id&) const noexcept  = default;
 	auto operator<=>(const Id&) const noexcept = default;
 
+	constexpr Id operator+(const Id& o) const noexcept
+	{
+		return Id(m_value + o.m_value);
+	}
+
 	constexpr Id operator+(std::size_t n) const noexcept
 	{
 		return Id(m_value + n);
