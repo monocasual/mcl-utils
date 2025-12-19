@@ -47,7 +47,7 @@ public:
 	explicit constexpr Id(std::size_t v) noexcept
 	: m_value(v)
 	{
-		assert(v > 0);
+		assert(isValid());
 	}
 
 	/* Constructor (3)
