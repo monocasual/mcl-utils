@@ -36,7 +36,13 @@ namespace mcl::utils
 class Id
 {
 public:
-	constexpr Id() noexcept = default; // Invalid
+	/* Constructor (1, default)
+	Creates an invalid ID. */
+
+	constexpr Id() noexcept = default;
+
+	/* Constructor (2)
+	Creates a regular ID. Must be greater than 0. */
 
 	explicit constexpr Id(std::size_t v) noexcept
 	: m_value(v)
