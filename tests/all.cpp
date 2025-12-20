@@ -68,5 +68,7 @@ TEST_CASE("id")
 	REQUIRE(valid.getValue() == 1);
 	REQUIRE(valid != invalid);
 	REQUIRE(valid > invalid);
-	REQUIRE(++valid == Id(2));
+	REQUIRE(++valid == Id{2});
+	REQUIRE(valid++ == Id{2});
+	REQUIRE(valid == Id{3});
 }
