@@ -1,3 +1,4 @@
+#include "src/container.hpp"
 #include "src/fs.hpp"
 #include "src/id.hpp"
 #include "src/math.hpp"
@@ -71,4 +72,17 @@ TEST_CASE("id")
 	REQUIRE(++valid == Id{2});
 	REQUIRE(valid++ == Id{2});
 	REQUIRE(valid == Id{3});
+}
+
+TEST_CASE("container")
+{
+	using namespace mcl::utils::container;
+
+	std::vector<int> vec = {1, 2, 3};
+
+	SECTION("indexOf")
+	{
+		REQUIRE(indexOf(vec, 1) == 0);
+		REQUIRE(indexOf(vec, 4) == vec.size());
+	}
 }

@@ -39,9 +39,9 @@ Returns the index of element p in container/view 'v'. Returns v.size() if
 element is not found. */
 
 template <typename T, typename P>
-std::ptrdiff_t indexOf(const T& v, const P& p)
+std::size_t indexOf(const T& v, const P& p)
 {
-	return std::distance(std::cbegin(v), std::find(std::cbegin(v), std::cend(v), p));
+	return static_cast<std::size_t>(std::distance(std::cbegin(v), std::find(std::cbegin(v), std::cend(v), p)));
 }
 
 /* -------------------------------------------------------------------------- */
