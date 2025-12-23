@@ -42,12 +42,11 @@ public:
 	constexpr Id() noexcept = default;
 
 	/* Constructor (2)
-	Creates a regular ID. Must be greater than 0. */
+	Creates a regular ID. Can be invalid (ID{0}). */
 
 	explicit constexpr Id(std::size_t v) noexcept
 	: m_value(v)
 	{
-		assert(isValid());
 	}
 
 	/* Constructor (3)
