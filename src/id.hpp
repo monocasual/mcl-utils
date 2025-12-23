@@ -60,8 +60,6 @@ public:
 	{
 	}
 
-	static constexpr Id makeInvalid() noexcept { return Id(); }
-
 	constexpr bool        isValid() const noexcept { return m_value > 0; }
 	constexpr std::size_t getValue() const noexcept { return m_value; }
 
