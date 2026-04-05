@@ -78,6 +78,11 @@ std::string getExt(const std::string& s);
 
 std::string stripExt(const std::string& s);
 
+/* isProject
+True if the string passed in points to a project folder. */
+
+bool isProject(const std::string&);
+
 /* getUpDir
 Returns the upper directory:
 /path/to/my/directory -> /path/to/my/ */
