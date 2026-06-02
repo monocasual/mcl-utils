@@ -27,13 +27,39 @@
 #ifndef MONOCASUAL_UTILS_MATH_H
 #define MONOCASUAL_UTILS_MATH_H
 
+#include <cmath>
 #include <type_traits>
 
 namespace mcl::utils::math
 {
 float linearToDB(float f);
 float dBtoLinear(float f);
-int   quantize(int x, int step);
+
+/* -------------------------------------------------------------------------- */
+
+/* quantize
+Quantizes 'value' to the nearest multiple of 'step'. Two overloads are provided
+because integral and floating-point types need different implementations:
+- Integral types use pure integer arithmetic by adding half a step before
+  division. This avoids floating-point conversion and rounds to the nearest
+  multiple efficiently.
+- Floating-point types use the classic floor(x / step + 0.5) formulation,
+  which preserves the fractional part during division and performs proper
+  rounding in floating-point space. */
+
+template <typename T>
+    requires std::integral<T>
+constexpr T quantize(T value, T step) noexcept
+{
+	return ((value + step / T{2}) / step) * step;
+}
+
+template <typename T>
+    requires std::floating_point<T>
+T quantize(T value, T step) noexcept
+{
+	return step * std::floor((value / step) + T{0.5});
+}
 
 /* -------------------------------------------------------------------------- */
 
