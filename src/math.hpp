@@ -28,6 +28,7 @@
 #define MONOCASUAL_UTILS_MATH_H
 
 #include <cmath>
+#include <concepts>
 #include <type_traits>
 
 namespace mcl::utils::math
