@@ -34,6 +34,18 @@
 
 namespace mcl::utils::container
 {
+/* indexOfIf
+Returns the index of a certain element in container/view 'v' given a predicate.
+Returns v.size() if element is not found. */
+
+template <typename T, typename F>
+std::size_t indexOfIf(const T& v, F&& f)
+{
+	return static_cast<std::size_t>(std::distance(std::cbegin(v), std::find_if(std::cbegin(v), std::cend(v), f)));
+}
+
+/* -------------------------------------------------------------------------- */
+
 /* indexOf
 Returns the index of element p in container/view 'v'. Returns v.size() if
 element is not found. */
@@ -41,7 +53,8 @@ element is not found. */
 template <typename T, typename P>
 std::size_t indexOf(const T& v, const P& p)
 {
-	return static_cast<std::size_t>(std::distance(std::cbegin(v), std::find(std::cbegin(v), std::cend(v), p)));
+	return indexOfIf(v, [&](const auto& x)
+	    { return x == p; });
 }
 
 /* -------------------------------------------------------------------------- */
